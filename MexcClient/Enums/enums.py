@@ -10,3 +10,16 @@ class EnumKlineInterval(Enum):
     FOUR_HOUR = "4h"
     ONE_DAY = "1d"
     ONE_MONTH = "1M"
+
+
+class EnumOrderSide(Enum):
+    BUY = "BUY"
+    SELL = "SELL"
+
+
+class EnumOrderType(Enum):
+    LIMIT = "LIMIT"
+    MARKET = "MARKET"
+    LIMIT_MARKET = "LIMIT_MARKET"
+    IMMEDIATE_OR_CANCEL = "IMMEDIATE_OR_CANCEL"
+    FILL_OR_KILL = "FILL_OR_KILL"
