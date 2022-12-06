@@ -1,6 +1,7 @@
 from pprint import pprint
 
 from MexcClient import MexcClient
+from MexcClient.Enums import EnumKlineInterval
 
 
 def test_exchange_connection_success():
@@ -47,3 +48,10 @@ def test_collect_old_trade_lookup_of_symbol():
     assert isinstance(response, list)
     assert isinstance(response[0], dict)
     assert "price" in response[0]
+
+
+def test_collect_candle_data_of_symbol():
+    client = MexcClient("key", "secret")
+    response = client.kline_data("BTCUSDT", EnumKlineInterval.ONE_MIN)
+    assert isinstance(response, list)
+    assert isinstance(response[0], dict)
