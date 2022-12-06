@@ -66,3 +66,23 @@ class MexcClient:
             "error",
             f"An error occurred when trying to collect the last transactions for the symbol {symbol}.",
         ]
+
+    def old_trade_lookup(self, symbol: str, limit: int = 500) -> list:
+        """
+        this function collects the last transactions of an informed symbol.
+        :param symbol: trade pair, example: BTCUSDT
+        :param limit: result limit is a range from 500 to a maximum of 1000 results. The default is 500.
+        :return: list
+        """
+        response = requests.get(
+            self.__base_url + "/api/v3/historicalTrades",
+            params={"symbol": symbol, "limit": limit},
+        )
+
+        if response.ok:
+            return response.json()
+
+        return [
+            "error",
+            f"An error occurred while trying to collect the oldest operations for the {symbol} symbol.",
+        ]

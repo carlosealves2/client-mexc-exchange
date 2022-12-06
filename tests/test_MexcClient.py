@@ -39,3 +39,11 @@ def test_collect_recent_trades_of_symbol():
     assert isinstance(response, list)
     assert isinstance(response[0], dict)
     assert "price" in response[0]
+
+
+def test_collect_old_trade_lookup_of_symbol():
+    client = MexcClient("key", "secret")
+    response = client.old_trade_lookup("BTCUSDT")
+    assert isinstance(response, list)
+    assert isinstance(response[0], dict)
+    assert "price" in response[0]
