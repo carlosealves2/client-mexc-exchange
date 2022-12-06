@@ -1,11 +1,19 @@
 [tool.poetry]
-name = "client-mexc-exchange"
-version = "0.1.0"
+name = "MexcApiClient"
+version = "0.1.1"
 description = ""
 authors = ["Carlos Eduardo <suportebeloj@gmail.com>"]
+packages = [
+    { include = "MexcClient"},
+    { include = "MexcClient/**/*.py"}
+]
+readme = "README.md"
+license = "MIT"
+repository = "https://github.com/suportebeloj/client-mexc-exchange"
+
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.9"
 requests = "^2.28.1"
 
 [tool.poetry.dev-dependencies]

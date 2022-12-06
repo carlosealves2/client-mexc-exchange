@@ -1,9 +1,20 @@
 # Client MEXC Exchange
 
-A simple python client for the [MEXC]("https://www.mexc.com/") exchange. 
+A simple python client for the [MEXC](https://www.mexc.com/) exchange. 
 Open, unofficial project, intended to consume all endpoints provided by Exchange 
-[documentation]("https://mxcdevelop.github.io/apidocs/spot_v3_en/#introduction").
+[documentation](https://mxcdevelop.github.io/apidocs/spot_v3_en/#introduction).
 
+## Summary
+
+* [Pypi](#pypi)
+* [Dependencies](#dependencies)
+* [how to use](#how-to-use)
+* [functions implemented so far](#functions-implemented-so-far)
+* [Instalation](#installation)
+  * [Python version](#python-version)
+
+## Pypi
+see the project on Pypi by accessing the [link](https://pypi.org/project/mexcapiclient/).
 
 ## Dependencies
 
@@ -39,4 +50,16 @@ A simple code example for client use is:
 |                       |        |                          |                                                                                                                                                                           |                       |
 |                       |        |                          |                                                                                                                                                                           |                       |
 |                       |        |                          |                                                                                                                                                                           |                       |
+
+
+## installation
+To install just run the following command:
+
+    pip install mexcapiclient
+
+
+### Python version
+python version used in this project was:
+
+* [Python3.9](https://www.python.org/)
 
