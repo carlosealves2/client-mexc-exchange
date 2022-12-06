@@ -1,8 +1,8 @@
 # Client MEXC Exchange
 
-A simple python client for the [MEXC]("https://www.mexc.com/") exchange. 
+A simple python client for the [MEXC](https://www.mexc.com/) exchange. 
 Open, unofficial project, intended to consume all endpoints provided by Exchange 
-[documentation]("https://mxcdevelop.github.io/apidocs/spot_v3_en/#introduction").
+[documentation](https://mxcdevelop.github.io/apidocs/spot_v3_en/#introduction).
 
 
 ## Dependencies
