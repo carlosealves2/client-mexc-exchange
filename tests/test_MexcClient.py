@@ -1,7 +1,8 @@
-from pprint import pprint
+from datetime import datetime
 
 from MexcClient import MexcClient
 from MexcClient.Enums import EnumKlineInterval
+from MexcClient.Enums.enums import EnumOrderSide, EnumOrderType
 
 
 def test_exchange_connection_success():
@@ -63,3 +64,19 @@ def test_get_current_average_price():
     assert isinstance(response, dict)
     assert "price" in response
     assert isinstance(response.get("mins"), int)
+
+
+def test_create_new_order_test():
+    client = MexcClient("mx0PX86yWUCbws6Duh", "e84f6f2659db4ed98867be602a50a0cb")
+    timestamp = datetime.now().timestamp()
+
+    response = client.create_order_test(
+        "BTCUSDT",
+        EnumOrderSide.SELL,
+        EnumOrderType.MARKET,
+        int(timestamp),
+        price="2334"
+    )
+
+    assert isinstance(response, dict)
+    assert response == {}

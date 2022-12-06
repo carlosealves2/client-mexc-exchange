@@ -1,6 +1,10 @@
+import urllib.parse
+
 import requests
 
 from MexcClient.Enums import EnumKlineInterval
+from MexcClient.Enums.enums import EnumOrderSide, EnumOrderType
+from MexcClient.Utils.Signature import generate_signature
 
 
 class MexcClient:
@@ -113,12 +117,12 @@ class MexcClient:
         ]
 
     def kline_data(
-        self,
-        symbol: str,
-        interval: EnumKlineInterval,
-        start_time: int = 0,
-        end_time: int = 0,
-        limit: int = 500,
+            self,
+            symbol: str,
+            interval: EnumKlineInterval,
+            start_time: int = 0,
+            end_time: int = 0,
+            limit: int = 500,
     ) -> list:
         """
         function to collect the row of candlesticks of an informed symbol.
@@ -178,3 +182,53 @@ class MexcClient:
         return {
             "error": f"An error occurred when trying to collect the average price for the symbol {symbol}."
         }
+
+    def create_order_test(
+            self,
+            symbol: str,
+            side: EnumOrderSide,
+            _type: EnumOrderType,
+            timestamp: int,
+            quantity: int = 1,
+            quote_order_quantity: str = None,
+            price: str = None,
+            new_client_order_id: str = None,
+            recv_window: int = None,
+    ) -> dict:
+        params = {
+            "symbol": symbol,
+            "side": side.value,
+            "type": _type.value,
+            "quantity": quantity,
+            "recvWindow": 60000,
+            "timestamp": timestamp * 1000,
+        }
+
+        headers = {
+            "X-MEXC-APIKEY": self.__api_key,
+            "Content-Type": "application/json"
+        }
+
+        if quantity > 1:
+            params["quantity"] = quantity
+
+        if quote_order_quantity:
+            params["quoteOrderQty"] = quote_order_quantity
+
+        if price:
+            params["price"] = price.replace(",", ".")
+
+        if new_client_order_id:
+            params["newClientOrderId"] = new_client_order_id
+
+        if recv_window:
+            params["recvWindow"] = recv_window
+
+        str_params = urllib.parse.urlencode(params)
+        signature = generate_signature(self.__api_secret.encode(), str_params.encode())
+
+        params["signature"] = signature
+
+        response = requests.post(self.__base_url + "/api/v3/order/test", headers=headers, params=params)
+
+        return response.json()
