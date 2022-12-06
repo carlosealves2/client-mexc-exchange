@@ -1,5 +1,7 @@
 from datetime import datetime
 
+import pytest
+
 from MexcClient import MexcClient
 from MexcClient.Enums import EnumKlineInterval
 from MexcClient.Enums.enums import EnumOrderSide, EnumOrderType
@@ -66,8 +68,9 @@ def test_get_current_average_price():
     assert isinstance(response.get("mins"), int)
 
 
+@pytest.mark.skip(reason="Sensitive credentials are required in this test and cannot be exposed.")
 def test_create_new_order_test():
-    client = MexcClient("mx0PX86yWUCbws6Duh", "e84f6f2659db4ed98867be602a50a0cb")
+    client = MexcClient("test", "test")
     timestamp = datetime.now().timestamp()
 
     response = client.create_order_test(
