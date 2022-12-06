@@ -163,3 +163,18 @@ class MexcClient:
             "error",
             f"An error occurred when trying to collect the row of candlesticks for the symbol {symbol}.",
         ]
+
+    def current_average_price(self, symbol: str) -> dict:
+        response = requests.get(
+            self.__base_url + "/api/v3/avgPrice", params={"symbol": symbol}
+        )
+        if response.ok:
+            # respose mapping
+            # Name	Description
+            # mins	Average price time frame
+            # price	Price
+            return response.json()
+
+        return {
+            "error": f"An error occurred when trying to collect the average price for the symbol {symbol}."
+        }

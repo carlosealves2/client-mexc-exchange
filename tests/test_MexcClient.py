@@ -55,3 +55,11 @@ def test_collect_candle_data_of_symbol():
     response = client.kline_data("BTCUSDT", EnumKlineInterval.ONE_MIN)
     assert isinstance(response, list)
     assert isinstance(response[0], dict)
+
+
+def test_get_current_average_price():
+    client = MexcClient("key", "secret")
+    response = client.current_average_price("BTCUSDT")
+    assert isinstance(response, dict)
+    assert "price" in response
+    assert isinstance(response.get("mins"), int)
