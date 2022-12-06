@@ -1,4 +1,4 @@
-from MexcClient.main import MexcClient
+from MexcClient.client import MexcClient
 
 
 def test_exchange_connection_success():
