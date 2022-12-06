@@ -18,7 +18,7 @@ class MexcClient:
         return self.__base_url
 
     def check_connection(self) -> bool:
-        return requests.get(self.__base_url + "/api/v3/ping").json()
+        return requests.get(self.__base_url + "/api/v3/ping").json() == {}
 
     def server_time(self) -> dict:
         return requests.get(self.__base_url + "/api/v3/time").json()
