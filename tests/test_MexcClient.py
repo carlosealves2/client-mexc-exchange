@@ -1,3 +1,5 @@
+from pprint import pprint
+
 from MexcClient import MexcClient
 
 
@@ -13,3 +15,11 @@ def test_collect_server_hour():
     assert isinstance(response, dict)
     assert "serverTime" in response
     assert isinstance(response.get("serverTime"), int)
+
+
+def test_collect_exchange_info():
+    client = MexcClient("key", "secret")
+    response = client.exchange_info()
+    assert isinstance(response, dict)
+    assert "symbols" in response
+    assert len(response.get("symbols")) > 0

@@ -20,3 +20,9 @@ class MexcClient:
         if response.ok:
             return response.json()
         return {"error": "An error occurred while trying to collect the time from the server."}
+
+    def exchange_info(self):
+        response = requests.get(self.__base_url + "/api/v3/exchangeInfo")
+        if response.ok:
+            return response.json()
+        return {"error": "An error occurred while trying to collect exchange information."}
