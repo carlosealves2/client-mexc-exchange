@@ -23,3 +23,11 @@ def test_collect_exchange_info():
     assert isinstance(response, dict)
     assert "symbols" in response
     assert len(response.get("symbols")) > 0
+
+
+def test_order_book_symbol():
+    client = MexcClient("key", "secret")
+    response = client.order_book_of_symbol("BTCUSDT")
+    assert isinstance(response, dict)
+    assert "lastUpdateId" in response
+    assert len(response.get("bids")) == 100
