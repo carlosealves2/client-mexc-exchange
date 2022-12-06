@@ -68,7 +68,9 @@ def test_get_current_average_price():
     assert isinstance(response.get("mins"), int)
 
 
-@pytest.mark.skip(reason="Sensitive credentials are required in this test and cannot be exposed.")
+@pytest.mark.skip(
+    reason="Sensitive credentials are required in this test and cannot be exposed."
+)
 def test_create_new_order_test():
     client = MexcClient("test", "test")
     timestamp = datetime.now().timestamp()
@@ -78,7 +80,7 @@ def test_create_new_order_test():
         EnumOrderSide.SELL,
         EnumOrderType.MARKET,
         int(timestamp),
-        price="2334"
+        price="2334",
     )
 
     assert isinstance(response, dict)
