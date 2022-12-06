@@ -14,3 +14,9 @@ class MexcClient:
     def check_connection(self) -> bool:
         response = requests.get(self.__base_url + "/api/v3/ping")
         return response.ok
+
+    def server_time(self) -> dict:
+        response = requests.get(self.__base_url + "/api/v3/time")
+        if response.ok:
+            return response.json()
+        return {"error": "An error occurred while trying to collect the time from the server."}
