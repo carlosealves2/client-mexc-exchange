@@ -37,5 +37,6 @@ jobs:
       - name: Build
         run: |
           poetry build
-      - name: |
+      - name: Publish
+        run: |
           poetry publish -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
