@@ -2,8 +2,7 @@ import urllib.parse
 
 import requests
 
-from MexcClient.Enums import EnumKlineInterval
-from MexcClient.Enums.enums import EnumOrderSide, EnumOrderType
+from MexcClient.Enums import EnumKlineInterval, EnumOrderSide, EnumOrderType
 from MexcClient.Utils.Signature import generate_signature
 
 
