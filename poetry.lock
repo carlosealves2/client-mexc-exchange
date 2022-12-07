@@ -1,6 +1,6 @@
 [[package]]
 name = "appnope"
-version = "0.1.3"
+version = "0.1.5"
 description = "Disable App Nap on macOS >= 10.9"
 category = "dev"
 optional = false
