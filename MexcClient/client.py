@@ -151,7 +151,7 @@ class MexcClient:
         side: EnumOrderSide,
         _type: EnumOrderType,
         timestamp: int,
-        quantity: int = 1,
+        quantity: str,
         quote_order_quantity: str = None,
         price: str = None,
         new_client_order_id: str = None,
@@ -200,7 +200,7 @@ class MexcClient:
         side: EnumOrderSide,
         _type: EnumOrderType,
         timestamp: int,
-        quantity: int = 1,
+        quantity: str,
         quote_order_quantity: str = None,
         price: str = None,
         new_client_order_id: str = None,
@@ -216,9 +216,6 @@ class MexcClient:
         }
 
         headers = {"X-MEXC-APIKEY": self.__api_key, "Content-Type": "application/json"}
-
-        if quantity > 1:
-            params["quantity"] = quantity
 
         if quote_order_quantity:
             params["quoteOrderQty"] = quote_order_quantity
