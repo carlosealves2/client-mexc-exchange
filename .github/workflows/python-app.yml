@@ -37,5 +37,5 @@ jobs:
       - name: Build
         run: |
           poetry build
-      - name: |
-          poetry publish -u ${{ env.USERNAME }} -p ${{ env.PASSWORD }}
+#      - name: |
+#          poetry publish -u ${{ env.USERNAME }} -p ${{ env.PASSWORD }}
