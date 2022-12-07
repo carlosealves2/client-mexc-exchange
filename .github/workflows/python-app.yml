@@ -18,19 +18,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python 3.10
-      uses: actions/setup-python@v3
-      with:
-        python-version: "3.10"
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install black pytest
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Lint with Black
-      run: |
-        black .
-    - name: Test with pytest
-      run: |
-        pytest
+      - uses: actions/checkout@v3
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.10"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install black pytest poetry
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      - name: Lint with Black
+        run: |
+          black .
+      - name: Test with pytest
+        run: |
+          pytest
+      - name: Build
+        run: |
+          poetry build
+        if: github.event_name == 'pull_request'
+      - name: Publish
+        run: |
+          poetry publish -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
+        if: github.event_name == 'pull_request'
