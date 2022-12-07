@@ -37,6 +37,8 @@ jobs:
       - name: Build
         run: |
           poetry build
+        if: github.event_name == 'pull_request'
       - name: Publish
         run: |
           poetry publish -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
+        if: github.event_name == 'pull_request'
