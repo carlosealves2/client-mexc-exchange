@@ -90,12 +90,12 @@ class MexcClient:
         return response.json()
 
     def kline_data(
-        self,
-        symbol: str,
-        interval: EnumKlineInterval,
-        start_time: int = 0,
-        end_time: int = 0,
-        limit: int = 500,
+            self,
+            symbol: str,
+            interval: EnumKlineInterval,
+            start_time: int = 0,
+            end_time: int = 0,
+            limit: int = 500,
     ) -> list:
         """
         function to collect the row of candlesticks of an informed symbol.
@@ -146,66 +146,44 @@ class MexcClient:
         return response.json()
 
     def create_order_test(
-        self,
-        symbol: str,
-        side: EnumOrderSide,
-        _type: EnumOrderType,
-        timestamp: int,
-        quantity: str,
-        quote_order_quantity: str = None,
-        price: str = None,
-        new_client_order_id: str = None,
-        recv_window: int = None,
+            self,
+            symbol: str,
+            side: EnumOrderSide,
+            _type: EnumOrderType,
+            timestamp: int,
+            quantity: str,
+            quote_order_quantity: str = None,
+            price: str = None,
+            new_client_order_id: str = None,
+            recv_window: int = None,
     ) -> dict:
-        params = {
-            "symbol": symbol,
-            "side": side.value,
-            "type": _type.value,
-            "quantity": quantity,
-            "recvWindow": 60000,
-            "timestamp": timestamp * 1000,
-        }
-
-        headers = {"X-MEXC-APIKEY": self.__api_key, "Content-Type": "application/json"}
-
-        if quantity > 1:
-            params["quantity"] = quantity
-
-        if quote_order_quantity:
-            params["quoteOrderQty"] = quote_order_quantity
-
-        if price:
-            params["price"] = price.replace(",", ".")
-
-        if new_client_order_id:
-            params["newClientOrderId"] = new_client_order_id
-
-        if recv_window:
-            params["recvWindow"] = recv_window
-
-        str_params = urllib.parse.urlencode(params)
-        signature = generate_signature(self.__api_secret.encode(), str_params.encode())
-
-        params["signature"] = signature
-
-        response = requests.post(
-            self.__base_url + "/api/v3/order/test", headers=headers, params=params
-        )
-
-        return response.json()
+        return self._create("/api/v3/order/test", symbol, side, _type, timestamp, quantity, quote_order_quantity, price,
+                            new_client_order_id, recv_window)
 
     def create_new_order(
-        self,
-        symbol: str,
-        side: EnumOrderSide,
-        _type: EnumOrderType,
-        timestamp: int,
-        quantity: str,
-        quote_order_quantity: str = None,
-        price: str = None,
-        new_client_order_id: str = None,
-        recv_window: int = None,
+            self,
+            symbol: str,
+            side: EnumOrderSide,
+            _type: EnumOrderType,
+            timestamp: int,
+            quantity: str,
+            quote_order_quantity: str = None,
+            price: str = None,
+            new_client_order_id: str = None,
+            recv_window: int = None,
     ) -> dict:
+        return self._create("/api/v3/order", symbol, side, _type, timestamp, quantity, quote_order_quantity, price,
+                            new_client_order_id, recv_window)
+
+    def _create(self, url, symbol: str,
+                side: EnumOrderSide,
+                _type: EnumOrderType,
+                timestamp: int,
+                quantity: str,
+                quote_order_quantity: str = None,
+                price: str = None,
+                new_client_order_id: str = None,
+                recv_window: int = None, ) -> dict:
         params = {
             "symbol": symbol,
             "side": side.value,
@@ -235,7 +213,7 @@ class MexcClient:
         params["signature"] = signature
 
         response = requests.post(
-            self.__base_url + "/api/v3/order", headers=headers, params=params
+            self.__base_url + url, headers=headers, params=params
         )
 
         return response.json()
