@@ -91,12 +91,12 @@ class MexcClient:
         return response.json()
 
     def kline_data(
-            self,
-            symbol: str,
-            interval: EnumKlineInterval,
-            start_time: int = 0,
-            end_time: int = 0,
-            limit: int = 500,
+        self,
+        symbol: str,
+        interval: EnumKlineInterval,
+        start_time: int = 0,
+        end_time: int = 0,
+        limit: int = 500,
     ) -> list:
         """
         function to collect the row of candlesticks of an informed symbol.
@@ -147,16 +147,16 @@ class MexcClient:
         return response.json()
 
     def create_order_test(
-            self,
-            symbol: str,
-            side: EnumOrderSide,
-            _type: EnumOrderType,
-            timestamp: int,
-            quantity: str,
-            quote_order_quantity: str = None,
-            price: str = None,
-            new_client_order_id: str = None,
-            recv_window: int = None,
+        self,
+        symbol: str,
+        side: EnumOrderSide,
+        _type: EnumOrderType,
+        timestamp: int,
+        quantity: str,
+        quote_order_quantity: str = None,
+        price: str = None,
+        new_client_order_id: str = None,
+        recv_window: int = None,
     ) -> dict:
         return self._create(
             "/api/v3/order/test",
@@ -172,16 +172,16 @@ class MexcClient:
         )
 
     def create_new_order(
-            self,
-            symbol: str,
-            side: EnumOrderSide,
-            _type: EnumOrderType,
-            timestamp: int,
-            quantity: str,
-            quote_order_quantity: str = None,
-            price: str = None,
-            new_client_order_id: str = None,
-            recv_window: int = None,
+        self,
+        symbol: str,
+        side: EnumOrderSide,
+        _type: EnumOrderType,
+        timestamp: int,
+        quantity: str,
+        quote_order_quantity: str = None,
+        price: str = None,
+        new_client_order_id: str = None,
+        recv_window: int = None,
     ) -> dict:
         return self._create(
             "/api/v3/order",
@@ -197,17 +197,17 @@ class MexcClient:
         )
 
     def _create(
-            self,
-            url,
-            symbol: str,
-            side: EnumOrderSide,
-            _type: EnumOrderType,
-            timestamp: int,
-            quantity: str,
-            quote_order_quantity: str = None,
-            price: str = None,
-            new_client_order_id: str = None,
-            recv_window: int = None,
+        self,
+        url,
+        symbol: str,
+        side: EnumOrderSide,
+        _type: EnumOrderType,
+        timestamp: int,
+        quantity: str,
+        quote_order_quantity: str = None,
+        price: str = None,
+        new_client_order_id: str = None,
+        recv_window: int = None,
     ) -> dict:
         params = {
             "symbol": symbol,
@@ -266,11 +266,7 @@ class MexcClient:
 
     def cancel_order(self, symbol: str, order_id: str, timestamp: int):
         headers = {"X-MEXC-APIKEY": self.__api_key, "Content-Type": "application/json"}
-        body = {
-            "timestamp": timestamp * 1000,
-            "symbol": symbol,
-            "orderId": order_id
-        }
+        body = {"timestamp": timestamp * 1000, "symbol": symbol, "orderId": order_id}
 
         str_params = urllib.parse.urlencode(body)
         signature = generate_signature(self.__api_secret.encode(), str_params.encode())
@@ -281,3 +277,23 @@ class MexcClient:
         )
 
         return response.json()
+
+    def cancel_all_open_orders_on_a_symbol(self, symbols: list, timestamp: int) -> list:
+        headers = {"X-MEXC-APIKEY": self.__api_key, "Content-Type": "application/json"}
+        body = {"timestamp": timestamp * 1000}
+
+        if len(symbols) > 5:
+            return ["maximum number of symbols exceeded, only 5 are allowed"]
+
+        body["symbol"] = ",".join(symbol for symbol in symbols)
+
+        str_params = urllib.parse.urlencode(body)
+        signature = generate_signature(self.__api_secret.encode(), str_params.encode())
+        body["signature"] = signature
+
+        response = requests.delete(
+            self.__base_url + "/api/v3/openOrders", headers=headers, data=body
+        )
+
+        return response.json()
+

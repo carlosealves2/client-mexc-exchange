@@ -121,19 +121,52 @@ def test_load_balance_and_filter_result_by_symbol():
     assert result.get("asset") == "USDT"
 
 
+@pytest.mark.skip(
+    reason="Sensitive credentials are required in this test and cannot be exposed."
+)
 def test_cancel_order():
-    client = MexcClient("mx0PX86yWUCbws6Duh", "e84f6f2659db4ed98867be602a50a0cb")
+    client = MexcClient("test", "test")
     ts = int(datetime.now().timestamp())
-    created_order = client.create_new_order("BIT1USDT", EnumOrderSide.BUY, EnumOrderType.LIMIT, ts, "1300000",
-                                            price="0.000005")
+    created_order = client.create_new_order(
+        "BIT1USDT",
+        EnumOrderSide.BUY,
+        EnumOrderType.LIMIT,
+        ts,
+        "1300000",
+        price="0.000005",
+    )
 
     assert created_order
     assert created_order.get("symbol")
     assert created_order.get("orderId")
 
     ts = int(datetime.now().timestamp())
-    deleted_order = client.cancel_order(created_order.get("symbol"), created_order.get("orderId"), ts)
+    deleted_order = client.cancel_order(
+        created_order.get("symbol"), created_order.get("orderId"), ts
+    )
 
     assert deleted_order
     assert deleted_order.get("symbol")
     assert deleted_order.get("orderId")
+
+@pytest.mark.skip(
+    reason="Sensitive credentials are required in this test and cannot be exposed."
+)
+def test_delete_all_orders_open_on_a_symbol():
+    client = MexcClient("test", "test")
+
+    for _ in range(5):
+        ts = int(datetime.now().timestamp())
+        client.create_new_order(
+            "BIT1USDT",
+            EnumOrderSide.BUY,
+            EnumOrderType.LIMIT,
+            ts,
+            "1300000",
+            price="0.000005",
+        )
+
+    ts = int(datetime.now().timestamp())
+    canceled_orders = client.cancel_all_open_orders_on_a_symbol(["BIT1USDT"], ts)
+    assert canceled_orders
+    assert canceled_orders != []
