@@ -108,9 +108,11 @@ def test_load_only_balances_for_account():
     assert isinstance(result, list)
     assert result != []
 
-
+@pytest.mark.skip(
+    reason="Sensitive credentials are required in this test and cannot be exposed."
+)
 def test_load_balance_and_filter_result_by_symbol():
-    client = MexcClient("mx0PX86yWUCbws6Duh", "e84f6f2659db4ed98867be602a50a0cb")
+    client = MexcClient("test", "test")
     result = client.load_balance_by_symbol("USDT")
     assert isinstance(result, dict)
     assert result != {}
