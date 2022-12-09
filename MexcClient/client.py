@@ -222,6 +222,12 @@ class MexcClient:
     def load_balances(self) -> list:
         return self._load_account_info().get("balances")
 
+    def load_balance_by_symbol(self, symbol: str) -> dict:
+        balances = self.load_balances()
+        balance_of_symbol = list(filter(lambda i: i["asset"] == symbol, balances))
+
+        return balance_of_symbol[0]
+
     def _load_account_info(self) -> dict:
         headers = {"X-MEXC-APIKEY": self.__api_key, "Content-Type": "application/json"}
         params = {"timestamp": int(datetime.now().timestamp()) * 1000}

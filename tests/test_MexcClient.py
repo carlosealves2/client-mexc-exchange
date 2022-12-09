@@ -87,6 +87,7 @@ def test_create_new_order_test():
     assert isinstance(response, dict)
     assert response == {}
 
+
 @pytest.mark.skip(
     reason="Sensitive credentials are required in this test and cannot be exposed."
 )
@@ -97,6 +98,7 @@ def test_get_account_information_returning_dict_no_empty():
     assert result != {}
     assert "balances" in result
 
+
 @pytest.mark.skip(
     reason="Sensitive credentials are required in this test and cannot be exposed."
 )
@@ -105,3 +107,12 @@ def test_load_only_balances_for_account():
     result = client.load_balances()
     assert isinstance(result, list)
     assert result != []
+
+
+def test_load_balance_and_filter_result_by_symbol():
+    client = MexcClient("mx0PX86yWUCbws6Duh", "e84f6f2659db4ed98867be602a50a0cb")
+    result = client.load_balance_by_symbol("USDT")
+    assert isinstance(result, dict)
+    assert result != {}
+    assert "asset" in result
+    assert result.get("asset") == "USDT"
