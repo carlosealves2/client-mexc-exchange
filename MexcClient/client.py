@@ -158,8 +158,18 @@ class MexcClient:
             new_client_order_id: str = None,
             recv_window: int = None,
     ) -> dict:
-        return self._create("/api/v3/order/test", symbol, side, _type, timestamp, quantity, quote_order_quantity, price,
-                            new_client_order_id, recv_window)
+        return self._create(
+            "/api/v3/order/test",
+            symbol,
+            side,
+            _type,
+            timestamp,
+            quantity,
+            quote_order_quantity,
+            price,
+            new_client_order_id,
+            recv_window,
+        )
 
     def create_new_order(
             self,
@@ -173,18 +183,32 @@ class MexcClient:
             new_client_order_id: str = None,
             recv_window: int = None,
     ) -> dict:
-        return self._create("/api/v3/order", symbol, side, _type, timestamp, quantity, quote_order_quantity, price,
-                            new_client_order_id, recv_window)
+        return self._create(
+            "/api/v3/order",
+            symbol,
+            side,
+            _type,
+            timestamp,
+            quantity,
+            quote_order_quantity,
+            price,
+            new_client_order_id,
+            recv_window,
+        )
 
-    def _create(self, url, symbol: str,
-                side: EnumOrderSide,
-                _type: EnumOrderType,
-                timestamp: int,
-                quantity: str,
-                quote_order_quantity: str = None,
-                price: str = None,
-                new_client_order_id: str = None,
-                recv_window: int = None, ) -> dict:
+    def _create(
+            self,
+            url,
+            symbol: str,
+            side: EnumOrderSide,
+            _type: EnumOrderType,
+            timestamp: int,
+            quantity: str,
+            quote_order_quantity: str = None,
+            price: str = None,
+            new_client_order_id: str = None,
+            recv_window: int = None,
+    ) -> dict:
         params = {
             "symbol": symbol,
             "side": side.value,
@@ -213,9 +237,7 @@ class MexcClient:
 
         params["signature"] = signature
 
-        response = requests.post(
-            self.__base_url + url, headers=headers, data=params
-        )
+        response = requests.post(self.__base_url + url, headers=headers, data=params)
 
         return response.json()
 
@@ -242,3 +264,20 @@ class MexcClient:
         if response.ok:
             return response.json()
 
+    def cancel_order(self, symbol: str, order_id: str, timestamp: int):
+        headers = {"X-MEXC-APIKEY": self.__api_key, "Content-Type": "application/json"}
+        body = {
+            "timestamp": timestamp * 1000,
+            "symbol": symbol,
+            "orderId": order_id
+        }
+
+        str_params = urllib.parse.urlencode(body)
+        signature = generate_signature(self.__api_secret.encode(), str_params.encode())
+        body["signature"] = signature
+
+        response = requests.delete(
+            self.__base_url + "/api/v3/order", headers=headers, data=body
+        )
+
+        return response.json()
