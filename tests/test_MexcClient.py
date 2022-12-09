@@ -96,3 +96,10 @@ def test_get_account_information_returning_dict_no_empty():
     assert isinstance(result, dict)
     assert result != {}
     assert "balances" in result
+
+
+def test_load_only_balances_for_account():
+    client = MexcClient("mx0PX86yWUCbws6Duh", "e84f6f2659db4ed98867be602a50a0cb")
+    result = client.load_balances()
+    assert isinstance(result, list)
+    assert result != []

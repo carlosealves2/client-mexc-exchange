@@ -219,6 +219,9 @@ class MexcClient:
 
         return response.json()
 
+    def load_balances(self) -> list:
+        return self._load_account_info().get("balances")
+
     def _load_account_info(self) -> dict:
         headers = {"X-MEXC-APIKEY": self.__api_key, "Content-Type": "application/json"}
         params = {"timestamp": int(datetime.now().timestamp()) * 1000}
