@@ -80,8 +80,17 @@ def test_create_new_order_test():
         EnumOrderSide.SELL,
         EnumOrderType.MARKET,
         int(timestamp),
+        "12000",
         price="2334",
     )
 
     assert isinstance(response, dict)
     assert response == {}
+
+
+def test_get_account_information_returning_dict_no_empty():
+    client = MexcClient("mx0PX86yWUCbws6Duh", "e84f6f2659db4ed98867be602a50a0cb")
+    result = client._load_account_info()
+    assert isinstance(result, dict)
+    assert result != {}
+    assert "balances" in result

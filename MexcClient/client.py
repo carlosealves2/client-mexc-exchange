@@ -1,4 +1,5 @@
 import urllib.parse
+from datetime import datetime
 
 import requests
 
@@ -213,7 +214,22 @@ class MexcClient:
         params["signature"] = signature
 
         response = requests.post(
-            self.__base_url + url, headers=headers, params=params
+            self.__base_url + url, headers=headers, data=params
         )
 
         return response.json()
+
+    def _load_account_info(self) -> dict:
+        headers = {"X-MEXC-APIKEY": self.__api_key, "Content-Type": "application/json"}
+        params = {"timestamp": int(datetime.now().timestamp()) * 1000}
+
+        str_params = urllib.parse.urlencode(params)
+        signature = generate_signature(self.__api_secret.encode(), str_params.encode())
+        params["signature"] = signature
+
+        response = requests.get(
+            self.__base_url + "/api/v3/account", headers=headers, params=params
+        )
+        if response.ok:
+            return response.json()
+
