@@ -87,9 +87,11 @@ def test_create_new_order_test():
     assert isinstance(response, dict)
     assert response == {}
 
-
+@pytest.mark.skip(
+    reason="Sensitive credentials are required in this test and cannot be exposed."
+)
 def test_get_account_information_returning_dict_no_empty():
-    client = MexcClient("mx0PX86yWUCbws6Duh", "e84f6f2659db4ed98867be602a50a0cb")
+    client = MexcClient("test", "test")
     result = client._load_account_info()
     assert isinstance(result, dict)
     assert result != {}
