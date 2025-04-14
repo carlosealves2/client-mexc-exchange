@@ -2,7 +2,7 @@ from datetime import datetime
 
 import pytest
 
-from MexcClient import MexcClient
+from .MexcClient import MexcClient
 from MexcClient.Enums import EnumKlineInterval
 from MexcClient.Enums.enums import EnumOrderSide, EnumOrderType
 
@@ -28,9 +28,7 @@ def test_collect_exchange_info():
     assert "symbols" in response
     assert len(response.get("symbols")) > 0
 
-@pytest.mark.skip(
-    reason="Sensitive credentials are required in this test and cannot be exposed."
-)
+
 def test_order_book_symbol():
     client = MexcClient("key", "secret")
     response = client.order_book_of_symbol("BTCUSDT")
@@ -38,9 +36,7 @@ def test_order_book_symbol():
     assert "lastUpdateId" in response
     assert len(response.get("bids")) == 100
 
-@pytest.mark.skip(
-    reason="Sensitive credentials are required in this test and cannot be exposed."
-)
+
 def test_collect_recent_trades_of_symbol():
     client = MexcClient("key", "secret")
     response = client.recent_trades_list("BTCUSDT")
@@ -56,18 +52,14 @@ def test_collect_old_trade_lookup_of_symbol():
     assert isinstance(response[0], dict)
     assert "price" in response[0]
 
-@pytest.mark.skip(
-    reason="Sensitive credentials are required in this test and cannot be exposed."
-)
+
 def test_collect_candle_data_of_symbol():
     client = MexcClient("key", "secret")
     response = client.kline_data("BTCUSDT", EnumKlineInterval.ONE_MIN)
     assert isinstance(response, list)
     assert isinstance(response[0], dict)
 
-@pytest.mark.skip(
-    reason="Sensitive credentials are required in this test and cannot be exposed."
-)
+
 def test_get_current_average_price():
     client = MexcClient("key", "secret")
     response = client.current_average_price("BTCUSDT")

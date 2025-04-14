@@ -56,18 +56,14 @@ def test_collect_old_trade_lookup_of_symbol():
     assert isinstance(response[0], dict)
     assert "price" in response[0]
 
-@pytest.mark.skip(
-    reason="Sensitive credentials are required in this test and cannot be exposed."
-)
+
 def test_collect_candle_data_of_symbol():
     client = MexcClient("key", "secret")
     response = client.kline_data("BTCUSDT", EnumKlineInterval.ONE_MIN)
     assert isinstance(response, list)
     assert isinstance(response[0], dict)
 
-@pytest.mark.skip(
-    reason="Sensitive credentials are required in this test and cannot be exposed."
-)
+
 def test_get_current_average_price():
     client = MexcClient("key", "secret")
     response = client.current_average_price("BTCUSDT")
