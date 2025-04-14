@@ -28,9 +28,7 @@ def test_collect_exchange_info():
     assert "symbols" in response
     assert len(response.get("symbols")) > 0
 
-@pytest.mark.skip(
-    reason="Sensitive credentials are required in this test and cannot be exposed."
-)
+
 def test_order_book_symbol():
     client = MexcClient("key", "secret")
     response = client.order_book_of_symbol("BTCUSDT")
