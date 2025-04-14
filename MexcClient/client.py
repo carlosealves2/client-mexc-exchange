@@ -52,7 +52,7 @@ class MexcClient:
         :param limit: result limit is a range from 500 to a maximum of 1000 results. The default is 500.
         :return: list
         """
-        headers = {"X-MEXC-APIKEY": self.__api_key"}
+        headers = {"X-MEXC-APIKEY": self.__api_key}
         response = requests.get(
             self.__base_url + "/api/v3/trades", 
             headers=headers,
@@ -121,9 +121,10 @@ class MexcClient:
 
         if end_time > 0:
             params["endTime"] = end_time
-        headers = {"X-MEXC-APIKEY": self.__api_key"}
+        headers = {"X-MEXC-APIKEY": self.__api_key}
         response = requests.get(
             self.__base_url + "/api/v3/historicalTrades",
+            headers=headers,
             params=params,
         )
 
@@ -140,6 +141,7 @@ class MexcClient:
         return response.json()
 
     def current_average_price(self, symbol: str) -> dict:
+        headers = {"X-MEXC-APIKEY": self.__api_key}
         response = requests.get(
             self.__base_url + "/api/v3/avgPrice", headers=headers, params={"symbol": symbol}
         )
@@ -299,4 +301,3 @@ class MexcClient:
         )
 
         return response.json()
-
